@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_practice/homepage.dart';
+import 'package:flutter_application_practice/auth/user_model.dart';
+import 'package:flutter_application_practice/screens/signup_screen/name_screen.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
@@ -100,7 +101,9 @@ class SignUpScreen extends StatelessWidget {
                       // Navigate to client registration form
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Homepage()),
+                        MaterialPageRoute(
+                          builder: (context) => NameScreen(user: UserModel()),
+                        ),
                       );
                     },
                   ),
@@ -115,6 +118,12 @@ class SignUpScreen extends StatelessWidget {
                         'Showcase your services and\nconnect with clients.',
                     onTap: () {
                       // Navigate to beautician registration form
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => NameScreen(user: UserModel()),
+                        ),
+                      );
                     },
                   ),
                 ],
