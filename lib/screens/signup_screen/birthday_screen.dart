@@ -6,7 +6,7 @@ import 'gender_screen.dart';
 class BirthdayScreen extends StatelessWidget {
   final UserModel user;
 
-  BirthdayScreen({required this.user});
+  BirthdayScreen({super.key, required this.user});
 
   final birthdayController = TextEditingController();
 

@@ -5,7 +5,7 @@ import '../../auth/user_model.dart';
 class GenderScreen extends StatelessWidget {
   final UserModel user;
 
-  const GenderScreen({Key? key, required this.user}) : super(key: key);
+  const GenderScreen({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {

@@ -21,8 +21,12 @@ class _OtpScreenState extends State<OtpScreen> {
 
   @override
   void dispose() {
-    for (final c in _controllers) c.dispose();
-    for (final f in _focusNodes) f.dispose();
+    for (final c in _controllers) {
+      c.dispose();
+    }
+    for (final f in _focusNodes) {
+      f.dispose();
+    }
     super.dispose();
   }
 
@@ -63,10 +67,9 @@ class _OtpScreenState extends State<OtpScreen> {
 
       if (!mounted) return;
 
-      // Navigate to your home/dashboard screen
       Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (_) => const Homepage()),
+        MaterialPageRoute(builder: (_) => const Homepage(role: 'client')),
         (route) => false,
       );
     } on AuthException catch (e) {

@@ -1,21 +1,35 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'screens/signup_screen/login_screen.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Supabase.initialize(
-    url: 'https://soahzqyhefhnshpthtip.supabase.co',
-    anonKey: 'sb_publishable_sx83IZ7f1p-cF1XsQISRqQ_Vn6EK7El',
-  );
+void main() {
   runApp(const CareMeApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class CareMeApp extends StatelessWidget {
+  const CareMeApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: LoginScreen());
+    return MaterialApp(
+      title: 'CareMe',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        fontFamily: 'SF Pro Display',
+        scaffoldBackgroundColor: Colors.white,
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF7BB8F0)),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+          elevation: 0,
+          centerTitle: false,
+          titleTextStyle: TextStyle(
+            color: Colors.black,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+      home: const LoginScreen(),
+    );
   }
 }

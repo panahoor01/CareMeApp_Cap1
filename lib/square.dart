@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class MySquare extends StatelessWidget {
   final String post;
 
-  const MySquare({required this.post});
+  const MySquare({super.key, required this.post});
 
   static final List posts = [
     'post 1',

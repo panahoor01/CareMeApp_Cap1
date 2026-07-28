@@ -98,11 +98,11 @@ class SignUpScreen extends StatelessWidget {
                     title: "I'm a client",
                     subtitle: 'Find and book trusted\nbeauticians near you.',
                     onTap: () {
-                      // Navigate to client registration form
+                      final user = UserModel(role: 'client');
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => NameScreen(user: UserModel()),
+                          builder: (context) => NameScreen(user: user),
                         ),
                       );
                     },
@@ -117,11 +117,11 @@ class SignUpScreen extends StatelessWidget {
                     subtitle:
                         'Showcase your services and\nconnect with clients.',
                     onTap: () {
-                      // Navigate to beautician registration form
+                      final user = UserModel(role: 'beautician');
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => NameScreen(user: UserModel()),
+                          builder: (context) => NameScreen(user: user),
                         ),
                       );
                     },

@@ -6,7 +6,7 @@ import '../../auth/user_model.dart';
 class NameScreen extends StatelessWidget {
   final UserModel user;
 
-  NameScreen({required this.user});
+  NameScreen({super.key, required this.user});
 
   final firstController = TextEditingController();
   final lastController = TextEditingController();
