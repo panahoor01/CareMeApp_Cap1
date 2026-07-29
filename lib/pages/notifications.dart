@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_practice/pages/message_page.dart';
 
 class NotificationItem {
   final String name;
@@ -57,7 +58,7 @@ class NotificationPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 16),
+              const SizedBox(height: 18),
               Row(
                 children: [
                   Image.asset('assets/careme_logo.png', height: 34, width: 34),
@@ -65,6 +66,28 @@ class NotificationPage extends StatelessWidget {
                   const Text(
                     'CareMe',
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  ),
+                  const Spacer(),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const MessagesPage(),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      width: 42,
+                      height: 42,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: const Icon(
+                        Icons.chat_bubble_outline,
+                        color: Colors.black87,
+                        size: 28,
+                      ),
+                    ),
                   ),
                 ],
               ),

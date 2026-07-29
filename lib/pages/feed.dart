@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_practice/pages/detail_page.dart';
+import 'package:flutter_application_practice/pages/message_page.dart';
 
 class FeedItem {
   final String name;
@@ -60,21 +61,11 @@ const sampleFeed = [
   ),
 ];
 
-class UserHomePage extends StatefulWidget {
+class UserHomePage extends StatelessWidget {
   const UserHomePage({super.key});
 
   @override
-  State<UserHomePage> createState() => _UserHomePageState();
-}
-
-class _UserHomePageState extends State<UserHomePage> {
-  bool _isActive = true;
-
-  @override
   Widget build(BuildContext context) {
-    final activeColor =
-        _isActive ? const Color(0xFF22C55E) : const Color(0xFF9CA3AF);
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -93,38 +84,24 @@ class _UserHomePageState extends State<UserHomePage> {
                   const Spacer(),
                   GestureDetector(
                     onTap: () {
-                      setState(() {
-                        _isActive = !_isActive;
-                      });
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const MessagesPage(),
+                        ),
+                      );
                     },
-                    child: Row(
-                      children: [
-                        Text(
-                          _isActive ? 'Active' : 'Inactive',
-                          style: TextStyle(
-                            color: activeColor,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Icon(
-                          _isActive ? Icons.toggle_on : Icons.toggle_off,
-                          color: activeColor,
-                          size: 32,
-                        ),
-                      ],
+                    child: Container(
+                      width: 42,
+                      height: 42,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: const Icon(
+                        Icons.chat_bubble_outline,
+                        color: Colors.black87,
+                        size: 28,
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 12),
-                  Container(
-                    width: 42,
-                    height: 42,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFE5E7EB),
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    child: const Icon(Icons.chat_bubble_outline,
-                        color: Colors.black87),
                   ),
                 ],
               ),
@@ -135,7 +112,7 @@ class _UserHomePageState extends State<UserHomePage> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const Text(
-                    'All',
+                    'Discovery Feed',
                     style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 16),

@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_practice/auth/auth_service.dart';
 import 'package:flutter_application_practice/pages/edit_beautician_profile_page.dart';
+import 'package:flutter_application_practice/pages/message_page.dart';
 import 'package:flutter_application_practice/screens/signup_screen/login_screen.dart';
 
-class BeauticianProfilePage extends StatelessWidget {
+class BeauticianProfilePage extends StatefulWidget {
   const BeauticianProfilePage({super.key});
+
+  @override
+  State<BeauticianProfilePage> createState() => _BeauticianProfilePageState();
+}
+
+class _BeauticianProfilePageState extends State<BeauticianProfilePage> {
+  bool _isActive = true;
 
   Future<void> _confirmLogout(BuildContext context) async {
     final shouldLogout = await showDialog<bool>(
@@ -39,6 +47,9 @@ class BeauticianProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final activeColor =
+        _isActive ? const Color(0xFF22C55E) : const Color(0xFF9CA3AF);
+
     return DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -59,16 +70,39 @@ class BeauticianProfilePage extends StatelessWidget {
                           TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                     const Spacer(),
-                    const Text('Active',
-                        style: TextStyle(
-                            color: Color(0xFF22C55E),
-                            fontWeight: FontWeight.bold)),
-                    const SizedBox(width: 8),
-                    const Icon(Icons.toggle_on,
-                        color: Color(0xFF22C55E), size: 32),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _isActive = !_isActive;
+                        });
+                      },
+                      child: Row(
+                        children: [
+                          Text(
+                            _isActive ? 'Active' : 'Inactive',
+                            style: TextStyle(
+                              color: activeColor,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Icon(
+                            _isActive ? Icons.toggle_on : Icons.toggle_off,
+                            color: activeColor,
+                            size: 32,
+                          ),
+                        ],
+                      ),
+                    ),
                     const SizedBox(width: 12),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const MessagesPage(),
+                          ),
+                        );
+                      },
                       icon: const Icon(Icons.chat_bubble_outline,
                           color: Colors.black87),
                     ),

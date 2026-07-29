@@ -3,8 +3,15 @@ import 'package:flutter_application_practice/auth/auth_service.dart';
 import 'package:flutter_application_practice/pages/edit_profile_page.dart';
 import 'package:flutter_application_practice/screens/signup_screen/login_screen.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  bool _isActive = true;
 
   Future<void> _confirmLogout(BuildContext context) async {
     final shouldLogout = await showDialog<bool>(
@@ -39,6 +46,9 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final activeColor =
+        _isActive ? const Color(0xFF22C55E) : const Color(0xFF9CA3AF);
+
     return DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -48,12 +58,12 @@ class ProfilePage extends StatelessWidget {
             children: [
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
+                    const EdgeInsets.symmetric(horizontal: 23, vertical: 15),
                 child: Row(
                   children: [
                     Image.asset('assets/careme_logo.png',
                         width: 34, height: 34),
-                    const SizedBox(width: 12),
+                    const SizedBox(width: 11),
                     const Text(
                       'CareMe',
                       style:
@@ -62,16 +72,30 @@ class ProfilePage extends StatelessWidget {
                     const Spacer(),
                     Row(
                       children: [
-                        const Text('Active',
-                            style: TextStyle(
-                                color: Color(0xFF22C55E),
-                                fontWeight: FontWeight.bold)),
-                        const SizedBox(width: 8),
-                        const Icon(Icons.toggle_on,
-                            color: Color(0xFF22C55E), size: 32),
-                        const SizedBox(width: 12),
-                        const Icon(Icons.chat_bubble_outline,
-                            color: Colors.black87, size: 28),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _isActive = !_isActive;
+                            });
+                          },
+                          child: Row(
+                            children: [
+                              Text(
+                                _isActive ? 'Active' : 'Inactive',
+                                style: TextStyle(
+                                  color: activeColor,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(width: 6),
+                              Icon(
+                                _isActive ? Icons.toggle_on : Icons.toggle_off,
+                                color: activeColor,
+                                size: 32,
+                              ),
+                            ],
+                          ),
+                        ),
                         const SizedBox(width: 12),
                         IconButton(
                           onPressed: () => _confirmLogout(context),
@@ -107,7 +131,7 @@ class ProfilePage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: const [
                               Text(
-                                'Raphael Manzano',
+                                'Therry Mae',
                                 style: TextStyle(
                                     fontSize: 22, fontWeight: FontWeight.bold),
                               ),
@@ -339,7 +363,7 @@ class _BookingsTab extends StatelessWidget {
           subtitle: 'Rebond + Botox Treatment',
           status: 'Ongoing',
           total: '₱1,650.00',
-          name: 'Raphael Manzano',
+          name: 'Therry Mae',
         ),
       ],
     );
@@ -413,7 +437,7 @@ class _PostCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: const [
-                      Text('Aliza Watts',
+                      Text('Dirik Ramsi',
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16)),
                       SizedBox(height: 4),

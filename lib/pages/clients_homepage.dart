@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_practice/pages/beautician_home.dart';
 import 'package:flutter_application_practice/pages/feed.dart';
-import 'package:flutter_application_practice/pages/beauticians.dart';
+import 'package:flutter_application_practice/pages/find_beauticians.dart';
 import 'package:flutter_application_practice/pages/notifications.dart';
 import 'package:flutter_application_practice/pages/profle.dart';
 import 'package:flutter_application_practice/pages/beautician_profile.dart';

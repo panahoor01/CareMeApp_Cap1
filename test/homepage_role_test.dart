@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_application_practice/homepage.dart';
+import 'package:flutter_application_practice/pages/clients_homepage.dart';
 import 'package:flutter_application_practice/pages/beautician_home.dart';
 import 'package:flutter_application_practice/pages/feed.dart';
 
