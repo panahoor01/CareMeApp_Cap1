@@ -22,8 +22,7 @@ class Beautician {
 const sampleBeauticians = [
   Beautician(
     name: 'Aliza Watts',
-    imageUrl:
-        'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=400&q=80',
+    imageUrl: 'assets/man1.jpeg',
     specialty: 'Hair',
     distance: '2 km away',
     rating: '4.9',
@@ -31,8 +30,7 @@ const sampleBeauticians = [
   ),
   Beautician(
     name: 'Adrian Mateo Cruz',
-    imageUrl:
-        'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80',
+    imageUrl: 'assets/man2.jpeg',
     specialty: 'Lashes',
     distance: '3 km away',
     rating: '4.6',
@@ -40,8 +38,7 @@ const sampleBeauticians = [
   ),
   Beautician(
     name: 'Lila Katherine Bennett',
-    imageUrl:
-        'https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=400&q=80',
+    imageUrl: 'assets/man3.jpeg',
     specialty: 'Make Up',
     distance: '4 km away',
     rating: '5.0',
@@ -65,7 +62,7 @@ class BeauticiansPage extends StatelessWidget {
               const SizedBox(height: 18),
               Row(
                 children: [
-                  Image.asset('assets/logo2.png', height: 34, width: 34),
+                  Image.asset('assets/careme_logo.png', height: 34, width: 34),
                   const SizedBox(width: 12),
                   const Text(
                     'CareMe',
@@ -136,7 +133,7 @@ class BeauticiansPage extends StatelessWidget {
                               topLeft: Radius.circular(24),
                               topRight: Radius.circular(24),
                             ),
-                            child: Image.network(
+                            child: Image.asset(
                               beautician.imageUrl,
                               height: 160,
                               width: double.infinity,

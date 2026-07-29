@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_practice/auth/auth_service.dart';
-import 'package:flutter_application_practice/pages/edit_profile_page.dart';
+import 'package:flutter_application_practice/pages/edit_beautician_profile_page.dart';
 import 'package:flutter_application_practice/screens/signup_screen/login_screen.dart';
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+class BeauticianProfilePage extends StatelessWidget {
+  const BeauticianProfilePage({super.key});
 
   Future<void> _confirmLogout(BuildContext context) async {
     final shouldLogout = await showDialog<bool>(
@@ -51,8 +51,7 @@ class ProfilePage extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
                 child: Row(
                   children: [
-                    Image.asset('assets/careme_logo.png',
-                        width: 34, height: 34),
+                    Image.asset('assets/logo2.png', width: 34, height: 34),
                     const SizedBox(width: 12),
                     const Text(
                       'CareMe',
@@ -60,29 +59,23 @@ class ProfilePage extends StatelessWidget {
                           TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                     const Spacer(),
-                    Row(
-                      children: [
-                        const Text('Active',
-                            style: TextStyle(
-                                color: Color(0xFF22C55E),
-                                fontWeight: FontWeight.bold)),
-                        const SizedBox(width: 8),
-                        const Icon(Icons.toggle_on,
-                            color: Color(0xFF22C55E), size: 32),
-                        const SizedBox(width: 12),
-                        const Icon(Icons.chat_bubble_outline,
-                            color: Colors.black87, size: 28),
-                        const SizedBox(width: 12),
-                        IconButton(
-                          onPressed: () => _confirmLogout(context),
-                          icon: const Icon(
-                            Icons.logout,
-                            color: Color.fromARGB(255, 239, 68, 68),
-                            size: 26,
-                          ),
-                          tooltip: 'Logout',
-                        ),
-                      ],
+                    const Text('Active',
+                        style: TextStyle(
+                            color: Color(0xFF22C55E),
+                            fontWeight: FontWeight.bold)),
+                    const SizedBox(width: 8),
+                    const Icon(Icons.toggle_on,
+                        color: Color(0xFF22C55E), size: 32),
+                    const SizedBox(width: 12),
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.chat_bubble_outline,
+                          color: Colors.black87),
+                    ),
+                    const SizedBox(width: 12),
+                    IconButton(
+                      onPressed: () => _confirmLogout(context),
+                      icon: const Icon(Icons.logout, color: Color(0xFFEF4444)),
                     ),
                   ],
                 ),
@@ -98,7 +91,7 @@ class ProfilePage extends StatelessWidget {
                         CircleAvatar(
                           radius: 36,
                           backgroundImage: const AssetImage(
-                            'assets/man6.jpeg',
+                            'assets/man1.jpeg',
                           ),
                         ),
                         const SizedBox(width: 16),
@@ -107,31 +100,30 @@ class ProfilePage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: const [
                               Text(
-                                'Raphael Manzano',
+                                'Aliza Watts',
                                 style: TextStyle(
                                     fontSize: 22, fontWeight: FontWeight.bold),
                               ),
                               SizedBox(height: 6),
-                              Text('Client',
-                                  style: TextStyle(color: Colors.blue)),
+                              Text('Beautician',
+                                  style: TextStyle(color: Colors.blueAccent)),
                             ],
                           ),
                         ),
-                        // menu moved next to Edit Profile button
                       ],
                     ),
                     const SizedBox(height: 8),
                     const Text(
-                      'Yahooow!',
+                      'Experienced beautician • Hair, Nails, Lashes',
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 16),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: const [
-                        _StatItem(value: '256', label: 'Following'),
-                        _StatItem(value: '64', label: 'Completed Bookings'),
+                        _StatItem(value: '1.2k', label: 'Followers'),
+                        _StatItem(value: '4.9', label: 'Rating'),
                       ],
                     ),
                     const SizedBox(height: 18),
@@ -145,7 +137,7 @@ class ProfilePage extends StatelessWidget {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        const EditProfilePage(),
+                                        const EditBeauticianProfilePage(),
                                   ),
                                 );
                               },
@@ -172,13 +164,12 @@ class ProfilePage extends StatelessWidget {
                           ),
                           child: IconButton(
                             icon: const Icon(Icons.menu, color: Colors.black87),
-                            onPressed: () => (context),
+                            onPressed: () {},
                           ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 18),
-                    const SizedBox(height: 22),
                     Container(
                       decoration: BoxDecoration(
                         color: const Color(0xFFF8FAFC),
@@ -247,10 +238,10 @@ class _PostsTab extends StatelessWidget {
       children: [
         const SizedBox(height: 8),
         _PostCard(
-          title: 'Upgrade your look, upgrade your vibe.',
+          title: 'New look, new you.',
           imageUrl: 'assets/man5.jpeg',
-          likes: '1.1K',
-          comments: '250',
+          likes: '3.4K',
+          comments: '120',
         ),
       ],
     );
@@ -302,75 +293,14 @@ class _BookingsTab extends StatelessWidget {
       padding: EdgeInsets.zero,
       children: [
         const SizedBox(height: 8),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.only(bottom: 16),
-          child: Row(
-            children: [
-              _FilterPill(label: 'Requests', isActive: false),
-              _FilterPill(label: 'Ongoing', isActive: true),
-              _FilterPill(label: 'Upcoming', isActive: false),
-              _FilterPill(label: 'Completed', isActive: false),
-              _FilterPill(label: 'Cancelled', isActive: false),
-            ],
-          ),
-        ),
-        Container(
-          margin: const EdgeInsets.only(bottom: 16),
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          decoration: BoxDecoration(
-            color: const Color(0xFFF8FAFC),
-            borderRadius: BorderRadius.circular(18),
-            border: Border.all(color: const Color(0xFFE5E7EB)),
-          ),
-          child: Row(
-            children: const [
-              Icon(Icons.search, color: Color(0xFF9CA3AF)),
-              SizedBox(width: 12),
-              Expanded(
-                child: Text('Search bookings',
-                    style: TextStyle(color: Color(0xFF9CA3AF))),
-              ),
-            ],
-          ),
-        ),
         _BookingCard(
           title: 'Rebond',
           subtitle: 'Rebond + Botox Treatment',
           status: 'Ongoing',
           total: '₱1,650.00',
-          name: 'Raphael Manzano',
+          name: 'Client Name',
         ),
       ],
-    );
-  }
-}
-
-class _FilterPill extends StatelessWidget {
-  final String label;
-  final bool isActive;
-
-  const _FilterPill({required this.label, required this.isActive});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(right: 8),
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-      decoration: BoxDecoration(
-        color: isActive ? const Color(0xFFE0F2FE) : const Color(0xFFF8FAFC),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: isActive ? const Color(0xFF0369A1) : const Color(0xFFE5E7EB),
-        ),
-      ),
-      child: Text(
-        label,
-        style: TextStyle(
-          color: isActive ? const Color(0xFF0369A1) : const Color(0xFF6B7280),
-          fontWeight: isActive ? FontWeight.bold : FontWeight.w500,
-        ),
-      ),
     );
   }
 }

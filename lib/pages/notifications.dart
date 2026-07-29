@@ -60,7 +60,7 @@ class NotificationPage extends StatelessWidget {
               const SizedBox(height: 16),
               Row(
                 children: [
-                  Image.asset('assets/logo2.png', height: 34, width: 34),
+                  Image.asset('assets/careme_logo.png', height: 34, width: 34),
                   const SizedBox(width: 12),
                   const Text(
                     'CareMe',

@@ -53,7 +53,7 @@ class SignUpScreen extends StatelessWidget {
 
                   // Logo (top right)
                   Image.asset(
-                    'assets/logo2.png',
+                    'assets/careme_logo.png',
                     width: 36,
                     height: 36,
                     fit: BoxFit.contain,

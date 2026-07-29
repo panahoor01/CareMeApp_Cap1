@@ -4,6 +4,7 @@ import 'package:flutter_application_practice/pages/feed.dart';
 import 'package:flutter_application_practice/pages/beauticians.dart';
 import 'package:flutter_application_practice/pages/notifications.dart';
 import 'package:flutter_application_practice/pages/profle.dart';
+import 'package:flutter_application_practice/pages/beautician_profile.dart';
 
 class Homepage extends StatefulWidget {
   final String role;
@@ -23,7 +24,7 @@ class _HomepageState extends State<Homepage> {
         UserHomePage(),
         BeauticianHomePage(),
         NotificationPage(),
-        ProfilePage(),
+        BeauticianProfilePage(),
       ];
     }
 

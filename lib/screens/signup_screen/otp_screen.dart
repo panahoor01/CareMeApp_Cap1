@@ -119,7 +119,7 @@ class _OtpScreenState extends State<OtpScreen> {
               // Logo centered
               Center(
                 child: Image.asset(
-                  'assets/logo2.png',
+                  'assets/careme_logo.png',
                   width: 72,
                   height: 72,
                   fit: BoxFit.contain,

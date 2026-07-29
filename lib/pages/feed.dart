@@ -29,8 +29,7 @@ const sampleFeed = [
     rating: '4.8',
     reviewCount: '1.2k',
     services: ['Hair', 'Nails'],
-    imageUrl:
-        'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=400&q=80',
+    imageUrl: 'assets/man1.jpeg',
   ),
   FeedItem(
     name: 'Adrian Mateo Cruz',
@@ -39,8 +38,7 @@ const sampleFeed = [
     rating: '4.5',
     reviewCount: '510',
     services: ['Lashes', 'Hair'],
-    imageUrl:
-        'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80',
+    imageUrl: 'assets/man2.jpeg',
   ),
   FeedItem(
     name: 'Lila Katherine Bennett',
@@ -49,8 +47,7 @@ const sampleFeed = [
     rating: '5.0',
     reviewCount: '3',
     services: ['Make Up'],
-    imageUrl:
-        'https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=400&q=80',
+    imageUrl: 'assets/man3.jpeg',
   ),
   FeedItem(
     name: 'Rafael Tomas Dela Cruz',
@@ -59,8 +56,7 @@ const sampleFeed = [
     rating: '4.7',
     reviewCount: '120',
     services: ['Wax', 'Spa'],
-    imageUrl:
-        'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=400&q=80',
+    imageUrl: 'assets/man4.jpeg',
   ),
 ];
 
@@ -88,7 +84,7 @@ class _UserHomePageState extends State<UserHomePage> {
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
               child: Row(
                 children: [
-                  Image.asset('assets/logo2.png', height: 34, width: 34),
+                  Image.asset('assets/careme_logo.png', height: 34, width: 34),
                   const SizedBox(width: 12),
                   const Text(
                     'CareMe',
@@ -189,7 +185,7 @@ class _UserHomePageState extends State<UserHomePage> {
                           children: [
                             CircleAvatar(
                               radius: 34,
-                              backgroundImage: NetworkImage(item.imageUrl),
+                              backgroundImage: AssetImage(item.imageUrl),
                             ),
                             const SizedBox(width: 14),
                             Expanded(

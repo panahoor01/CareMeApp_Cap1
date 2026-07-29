@@ -49,7 +49,7 @@ class _BeauticianHomePageState extends State<BeauticianHomePage>
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
               child: Row(
                 children: [
-                  Image.asset('assets/logo2.png', width: 34, height: 34),
+                  Image.asset('assets/careme_logo.png', width: 34, height: 34),
                   const SizedBox(width: 12),
                   const Text(
                     'CareMe',

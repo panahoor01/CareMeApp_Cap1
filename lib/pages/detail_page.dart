@@ -29,7 +29,7 @@ class ItemDetailPage extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(24),
-              child: Image.network(
+              child: Image.asset(
                 imageUrl,
                 height: 220,
                 fit: BoxFit.cover,
