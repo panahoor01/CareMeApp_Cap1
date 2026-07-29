@@ -5,6 +5,14 @@ import 'package:flutter_application_practice/screens/signup_screen/name_screen.d
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
 
+  void _selectRole(BuildContext context, String role) {
+    final user = UserModel()..role = role;
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => NameScreen(user: user)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,10 +61,15 @@ class SignUpScreen extends StatelessWidget {
 
                   // Logo (top right)
                   Image.asset(
-                    'assets/careme_logo.png',
+                    'assets/logo2.png',
                     width: 36,
                     height: 36,
                     fit: BoxFit.contain,
+                    errorBuilder: (_, __, ___) => const Icon(
+                      Icons.favorite,
+                      color: Color(0xFFFF6B81),
+                      size: 26,
+                    ),
                   ),
                 ],
               ),
@@ -97,15 +110,7 @@ class SignUpScreen extends StatelessWidget {
                     icon: Icons.person_outline,
                     title: "I'm a client",
                     subtitle: 'Find and book trusted\nbeauticians near you.',
-                    onTap: () {
-                      final user = UserModel(role: 'client');
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => NameScreen(user: user),
-                        ),
-                      );
-                    },
+                    onTap: () => _selectRole(context, 'client'),
                   ),
 
                   const SizedBox(height: 14),
@@ -116,15 +121,7 @@ class SignUpScreen extends StatelessWidget {
                     title: "I'm a beautician",
                     subtitle:
                         'Showcase your services and\nconnect with clients.',
-                    onTap: () {
-                      final user = UserModel(role: 'beautician');
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => NameScreen(user: user),
-                        ),
-                      );
-                    },
+                    onTap: () => _selectRole(context, 'beautician'),
                   ),
                 ],
               ),

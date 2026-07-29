@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_practice/homepage.dart';
+import 'package:flutter_application_practice/screens/signup_screen/signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -37,6 +38,13 @@ class _LoginScreenState extends State<LoginScreen> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (_) => Homepage(role: role)),
+    );
+  }
+
+  void _goToSignUp() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const SignUpScreen()),
     );
   }
 
@@ -209,7 +217,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: double.infinity,
                   height: 54,
                   child: OutlinedButton(
-                    onPressed: () {},
+                    onPressed: _goToSignUp,
                     style: OutlinedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(28),

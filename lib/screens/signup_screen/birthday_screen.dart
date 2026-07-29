@@ -1,43 +1,102 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_practice/screens/signup_screen/signup_widget.dart';
+import 'package:flutter_application_practice/screens/signup_screen/singup_theme.dart';
 
 import '../../auth/user_model.dart';
 import 'gender_screen.dart';
 
-class BirthdayScreen extends StatelessWidget {
+const _months = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+
+String formatBirthday(DateTime date) =>
+    '${_months[date.month - 1]} ${date.day}, ${date.year}';
+
+class BirthdayScreen extends StatefulWidget {
   final UserModel user;
 
-  BirthdayScreen({super.key, required this.user});
+  const BirthdayScreen({Key? key, required this.user}) : super(key: key);
 
-  final birthdayController = TextEditingController();
+  @override
+  State<BirthdayScreen> createState() => _BirthdayScreenState();
+}
+
+class _BirthdayScreenState extends State<BirthdayScreen> {
+  DateTime? _selectedDate;
+
+  String get _title =>
+      widget.user.isBeautician ? 'Beautician Sign up' : 'Client Sign up';
+
+  Future<void> _pickDate() async {
+    final now = DateTime.now();
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: _selectedDate ?? DateTime(now.year - 18, now.month, now.day),
+      firstDate: DateTime(now.year - 100),
+      lastDate: now,
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: Theme.of(context).colorScheme.copyWith(
+                  primary: SignupTheme.accent,
+                ),
+          ),
+          child: child!,
+        );
+      },
+    );
+    if (picked != null) {
+      setState(() => _selectedDate = picked);
+    }
+  }
+
+  void _continue() {
+    if (_selectedDate == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please select your birthday.')),
+      );
+      return;
+    }
+
+    widget.user.birthdayDate = _selectedDate;
+    widget.user.birthday = formatBirthday(_selectedDate!);
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => GenderScreen(user: widget.user)),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Enter Birthday')),
-      body: Padding(
-        padding: EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              controller: birthdayController,
-              decoration: InputDecoration(labelText: "Birthday (YYYY-MM-DD)"),
+    return SignupStepScaffold(
+      title: _title,
+      heading: "What's your birthday?",
+      subheading: 'Enter your birthday. You can keep it private later.',
+      onContinue: _continue,
+      child: GestureDetector(
+        onTap: _pickDate,
+        child: AbsorbPointer(
+          child: TextField(
+            controller: TextEditingController(
+              text: _selectedDate == null ? '' : formatBirthday(_selectedDate!),
             ),
-
-            SizedBox(height: 20),
-
-            ElevatedButton(
-              onPressed: () {
-                user.birthday = birthdayController.text;
-
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => GenderScreen(user: user)),
-                );
-              },
-              child: Text("Continue"),
+            decoration: signupInputDecoration('Birthday').copyWith(
+              suffixIcon: const Icon(Icons.calendar_today_outlined,
+                  size: 18, color: SignupTheme.textGrey),
             ),
-          ],
+          ),
         ),
       ),
     );
