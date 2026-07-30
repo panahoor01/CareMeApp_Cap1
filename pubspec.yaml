@@ -66,6 +66,10 @@ flutter:
     - assets/man4.jpeg
     - assets/man5.jpeg
     - assets/man6.jpeg
+    - assets/work1.jpg
+    - assets/work2.jpg
+    - assets/work3.jpg
+    - assets/work4.jpg
 
   # To add assets to your application, add an assets section, like this:
   # assets:
