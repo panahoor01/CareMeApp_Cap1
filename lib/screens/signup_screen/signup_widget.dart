@@ -9,41 +9,74 @@ class SignupTopBar extends StatelessWidget implements PreferredSizeWidget {
   const SignupTopBar({Key? key, required this.title}) : super(key: key);
 
   @override
+  Size get preferredSize => const Size.fromHeight(64);
+
+  @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      bottom: false,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-        child: Row(
-          children: [
-            IconButton(
-              icon: const Icon(Icons.chevron_left,
-                  size: 26, color: SignupTheme.textDark),
-              onPressed: () => Navigator.pop(context),
-            ),
-            Expanded(
-              child: Text(
-                title,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: SignupTheme.textDark,
+    return ColoredBox(
+      color: Colors.white,
+      child: SafeArea(
+        bottom: false,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // Back button
+              GestureDetector(
+                onTap: () => Navigator.pop(context),
+                child: const Row(
+                  children: [
+                    Icon(
+                      Icons.chevron_left_rounded,
+                      size: 30,
+                      color: Color(0xFF1A1A1A),
+                    ),
+                    Text(
+                      "Back",
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Color(0xFF1A1A1A),
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(right: 12),
-              child: Icon(Icons.favorite, color: SignupTheme.heart, size: 22),
-            ),
-          ],
+
+              // Title
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Text(
+                    title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: SignupTheme.textDark,
+                    ),
+                  ),
+                ),
+              ),
+              Image.asset(
+                'assets/careme_logo.png',
+                width: 40,
+                height: 40,
+                fit: BoxFit.contain,
+                errorBuilder: (_, __, ___) => const Icon(
+                  Icons.favorite,
+                  color: Color(0xFFFF6B81),
+                  size: 26,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(52);
 }
 
 /// Standard page shell used by every step: top bar, heading, subheading,
@@ -79,36 +112,43 @@ class SignupStepScaffold extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(24, 16, 24, 6),
-              child: Text(
-                heading,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: SignupTheme.textDark,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
-              child: Text(
-                subheading,
-                style: const TextStyle(
-                  fontSize: 13.5,
-                  color: SignupTheme.textGrey,
-                  height: 1.4,
-                ),
-              ),
-            ),
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: child,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 16, 20, 6),
+                      child: Text(
+                        heading,
+                        style: const TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          color: SignupTheme.textDark,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
+                      child: Text(
+                        subheading,
+                        style: const TextStyle(
+                          fontSize: 15,
+                          color: Colors.black87,
+                          height: 1.5,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: child,
+                    ),
+                  ],
+                ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(24, 12, 24, 20),
+              padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
               child: SignupContinueButton(
                 label: continueLabel,
                 onPressed: continueEnabled ? onContinue : null,
@@ -135,23 +175,37 @@ class SignupContinueButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 50,
+      height: 54,
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: SignupTheme.accent,
-          disabledBackgroundColor: SignupTheme.accent.withOpacity(0.4),
+          backgroundColor: Colors.transparent,
+          disabledBackgroundColor: Colors.transparent,
+          shadowColor: Colors.transparent,
           elevation: 0,
+          padding: EdgeInsets.zero,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(SignupTheme.radius),
           ),
         ),
-        child: Text(
-          label,
-          style: const TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w600,
-            color: Colors.white,
+        child: Ink(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [const Color(0xFFB5E8FF), const Color(0xFFFFD4C8)]
+                  .map((c) => onPressed == null ? c.withValues(alpha: 0.4) : c)
+                  .toList(),
+            ),
+            borderRadius: BorderRadius.circular(SignupTheme.radius),
+          ),
+          child: Center(
+            child: Text(
+              label,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
+              ),
+            ),
           ),
         ),
       ),
@@ -159,14 +213,15 @@ class SignupContinueButton extends StatelessWidget {
   }
 }
 
-/// Shared decoration so every TextField / dropdown looks identical.
-InputDecoration signupInputDecoration(String label, {String? hint}) {
+InputDecoration signupInputDecoration(String label, {String? hintText}) {
   return InputDecoration(
     labelText: label,
-    hintText: hint,
+    hintText: hintText,
     filled: true,
     fillColor: SignupTheme.fieldFill,
-    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+    alignLabelWithHint: true,
+
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(SignupTheme.radius),
       borderSide: const BorderSide(color: SignupTheme.fieldBorder),
@@ -179,7 +234,7 @@ InputDecoration signupInputDecoration(String label, {String? hint}) {
       borderRadius: BorderRadius.circular(SignupTheme.radius),
       borderSide: const BorderSide(color: SignupTheme.accent, width: 1.4),
     ),
-    labelStyle: const TextStyle(color: SignupTheme.textGrey, fontSize: 13.5),
+    labelStyle: const TextStyle(color: SignupTheme.textGrey, fontSize: 15),
   );
 }
 
@@ -198,15 +253,16 @@ class SignupAddButton extends StatelessWidget {
       width: double.infinity,
       child: OutlinedButton.icon(
         onPressed: onPressed,
-        icon: const Icon(Icons.add, size: 18, color: SignupTheme.textDark),
+        icon: const Icon(Icons.add_circle_outline_rounded, size: 22, color: Color.fromARGB(255, 1, 170, 249)),
         label: Text(
           label,
           style: const TextStyle(
-              color: SignupTheme.textDark, fontWeight: FontWeight.w500),
+              fontSize: 16,
+              color: SignupTheme.textDark, fontWeight: FontWeight.w400),
         ),
         style: OutlinedButton.styleFrom(
-          side: const BorderSide(color: SignupTheme.fieldBorder),
-          padding: const EdgeInsets.symmetric(vertical: 12),
+          side: const BorderSide(color: Color.fromARGB(255, 1, 170, 249)),
+          padding: const EdgeInsets.symmetric(vertical: 20),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(SignupTheme.radius),
           ),

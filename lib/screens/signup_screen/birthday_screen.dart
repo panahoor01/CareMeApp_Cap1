@@ -93,8 +93,11 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
               text: _selectedDate == null ? '' : formatBirthday(_selectedDate!),
             ),
             decoration: signupInputDecoration('Birthday').copyWith(
-              suffixIcon: const Icon(Icons.calendar_today_outlined,
-                  size: 18, color: SignupTheme.textGrey),
+              suffixIcon: const Padding(
+                padding: EdgeInsets.only(right: 16),
+                child: Icon(Icons.calendar_today_outlined,
+                    size: 18, color: SignupTheme.textGrey),
+              ),
             ),
           ),
         ),

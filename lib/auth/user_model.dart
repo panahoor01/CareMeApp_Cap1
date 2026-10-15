@@ -4,14 +4,10 @@ import 'package:flutter/material.dart';
 /// e.g. "MON 7:00 AM to 12:00 AM".
 class AvailabilitySlot {
   String day;
-  TimeOfDay from;
-  TimeOfDay to;
+  TimeOfDay? from;
+  TimeOfDay? to;
 
-  AvailabilitySlot({
-    this.day = 'MON',
-    this.from = const TimeOfDay(hour: 7, minute: 0),
-    this.to = const TimeOfDay(hour: 12, minute: 0),
-  });
+  AvailabilitySlot({this.day = 'MON', this.from, this.to});
 }
 
 class UserModel {
@@ -37,9 +33,9 @@ class UserModel {
   String? password;
 
   // Beautician-only professional details
-  List<String> specialties = [];
   List<String> services = [];
   List<AvailabilitySlot> availability = [];
+  String about = '';
 
   bool get isBeautician => role == 'beautician';
   bool get isClient => role == 'client';

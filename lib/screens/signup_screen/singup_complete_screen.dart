@@ -36,26 +36,46 @@ class SignupCompleteScreen extends StatelessWidget {
                     : 'Your account is ready to go.',
                 textAlign: TextAlign.center,
                 style:
-                    const TextStyle(fontSize: 14, color: SignupTheme.textGrey),
+                    const TextStyle(fontSize: 16, color: Colors.black87),
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: 25),
               SizedBox(
                 width: double.infinity,
-                height: 50,
+                height: 54,
                 child: ElevatedButton(
                   onPressed: () =>
                       Navigator.popUntil(context, (route) => route.isFirst),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: SignupTheme.accent,
+                    backgroundColor: Colors.transparent,
+                    shadowColor: Colors.transparent,
+                    padding: EdgeInsets.zero,
                     elevation: 0,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(SignupTheme.radius),
                     ),
                   ),
-                  child: const Text(
-                    'Continue to CareMe',
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.w600),
+                  child: Ink(
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                        colors: [
+                          Color(0xFFB5E8FF),
+                          Color(0xFFFFD4C8)
+                        ],
+                      ),
+                      borderRadius: BorderRadius.circular(SignupTheme.radius),
+                    ),
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: const Text(
+                        'Continue to CareMe',
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ),
                   ),
                 ),
               ),

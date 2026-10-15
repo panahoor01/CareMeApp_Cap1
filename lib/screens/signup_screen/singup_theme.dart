@@ -8,12 +8,11 @@ class SignupTheme {
 
   static const Color textDark = Color(0xFF1A1A1A);
   static const Color textGrey = Color(0xFF757575);
-  static const Color fieldFill = Color(0xFFF5F5F5);
-  static const Color fieldBorder = Color(0xFFE7E7E7);
+  static const Color fieldFill = Colors.transparent;
+  static const Color fieldBorder = Colors.black;
   static const Color accent = Color(0xFFFF8A80); // coral "Continue" button
   static const Color accentDark = Color(0xFFFF6F61);
   static const Color heart = Color(0xFFFF6B81);
 
-  static const double radius = 12;
-  static const double cardRadius = 14;
+  static const double radius = 28;
 }

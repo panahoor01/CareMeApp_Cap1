@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_practice/screens/signup_screen/signup_widget.dart';
-import 'package:flutter_application_practice/screens/signup_screen/singup_complete_screen.dart';
+import 'package:flutter_application_practice/auth/auth_navigation.dart';
+import 'package:flutter_application_practice/auth/auth_service.dart';
 
 import '../../auth/user_model.dart';
-import 'specialty_screen.dart';
+import 'professional_profile_screen.dart';
 
 class PasswordScreen extends StatefulWidget {
   final UserModel user;
@@ -19,6 +20,10 @@ class _PasswordScreenState extends State<PasswordScreen> {
   final confirmController = TextEditingController();
   bool _obscure = true;
   bool _obscureConfirm = true;
+  bool _loading = false;
+  final _auth = AuthService();
+  String? _passwordError;
+  String? _confirmError;
 
   @override
   void dispose() {
@@ -38,25 +43,22 @@ class _PasswordScreenState extends State<PasswordScreen> {
     return hasUpper && hasLower && hasDigit;
   }
 
-  void _continue() {
+  Future<void> _continue() async {
     final password = passwordController.text;
     final confirm = confirmController.text;
 
-    if (!_isStrongEnough(password)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'Password needs 8+ characters, upper & lower case, and a number.',
-          ),
-        ),
-      );
-      return;
-    }
+    final passwordError = _isStrongEnough(password)
+        ? null
+        : 'Password needs 8+ characters, upper & lower case, and a number.';
+    final confirmError = password != confirm ? 'Passwords do not match.' : null;
 
-    if (password != confirm) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Passwords do not match.')),
-      );
+    if (passwordError != null || confirmError != null) {
+      setState(() {
+        _passwordError = passwordError;
+        // Only show the mismatch once the password itself is acceptable,
+        // otherwise the user sees two errors for one problem.
+        _confirmError = passwordError == null ? confirmError : null;
+      });
       return;
     }
 
@@ -65,14 +67,28 @@ class _PasswordScreenState extends State<PasswordScreen> {
     if (widget.user.isBeautician) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (_) => SpecialtyScreen(user: widget.user)),
-      );
-    } else {
-      Navigator.push(
-        context,
         MaterialPageRoute(
-            builder: (_) => SignupCompleteScreen(user: widget.user)),
+            builder: (_) => ProfessionalProfileScreen(user: widget.user)),
       );
+      return;
+    }
+    await _submit();
+  }
+
+  Future<void> _submit() async {
+    setState(() => _loading = true);
+    try {
+      await _auth.signUpWithPhone(widget.user);
+      widget.user.password = null;
+      if (!mounted) return;
+      goToProfileLandingPage(context, widget.user.role!);
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(AuthService.friendlyError(e))),
+      );
+    } finally {
+      if (mounted) setState(() => _loading = false);
     }
   }
 
@@ -85,13 +101,25 @@ class _PasswordScreenState extends State<PasswordScreen> {
           'Create a strong password with at least 8 characters, including '
           'uppercase and lowercase letters and a number.',
       onContinue: _continue,
+      continueEnabled: !_loading,
       child: Column(
         children: [
           TextField(
             controller: passwordController,
             obscureText: _obscure,
+            onChanged: (_) {
+              if (_passwordError != null || _confirmError != null) {
+                setState(() {
+                  _passwordError = null;
+                  _confirmError = null;
+                });
+              }
+            },
             decoration: signupInputDecoration('Password').copyWith(
+              errorText: _passwordError,
+              errorMaxLines: 3,
               suffixIcon: IconButton(
+                padding: const EdgeInsets.only(right: 16),
                 icon: Icon(
                   _obscure
                       ? Icons.visibility_off_outlined
@@ -106,9 +134,14 @@ class _PasswordScreenState extends State<PasswordScreen> {
           TextField(
             controller: confirmController,
             obscureText: _obscureConfirm,
+            onChanged: (_) {
+              if (_confirmError != null) setState(() => _confirmError = null);
+            },
             decoration:
                 signupInputDecoration('Re-enter your password').copyWith(
+              errorText: _confirmError,
               suffixIcon: IconButton(
+                padding: const EdgeInsets.only(right: 16),
                 icon: Icon(
                   _obscureConfirm
                       ? Icons.visibility_off_outlined

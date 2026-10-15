@@ -21,7 +21,6 @@ class SignUpScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ── Top Bar ──────────────────────────────────────────────
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: Row(
@@ -30,11 +29,11 @@ class SignUpScreen extends StatelessWidget {
                   // Back button
                   GestureDetector(
                     onTap: () => Navigator.pop(context),
-                    child: Row(
-                      children: const [
+                    child: const Row(
+                      children: [
                         Icon(
-                          Icons.chevron_left,
-                          size: 26,
+                          Icons.chevron_left_rounded,
+                          size: 30,
                           color: Color(0xFF1A1A1A),
                         ),
                         Text(
@@ -42,7 +41,7 @@ class SignUpScreen extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 15,
                             color: Color(0xFF1A1A1A),
-                            fontWeight: FontWeight.w400,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ],
@@ -61,9 +60,9 @@ class SignUpScreen extends StatelessWidget {
 
                   // Logo (top right)
                   Image.asset(
-                    'assets/logo2.png',
-                    width: 36,
-                    height: 36,
+                    'assets/careme_logo.png',
+                    width: 40,
+                    height: 40,
                     fit: BoxFit.contain,
                     errorBuilder: (_, __, ___) => const Icon(
                       Icons.favorite,
@@ -81,7 +80,7 @@ class SignUpScreen extends StatelessWidget {
               child: Text(
                 'Welcome to CareMe!',
                 style: TextStyle(
-                  fontSize: 22,
+                  fontSize: 25,
                   fontWeight: FontWeight.bold,
                   color: Color(0xFF1A1A1A),
                 ),
@@ -93,8 +92,8 @@ class SignUpScreen extends StatelessWidget {
               child: Text(
                 "Let's create your account.\nPlease select your role to continue.",
                 style: TextStyle(
-                  fontSize: 14,
-                  color: Color(0xFF757575),
+                  fontSize: 15,
+                  color: Colors.black87,
                   height: 1.5,
                 ),
               ),
@@ -152,9 +151,9 @@ class _RoleCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         decoration: BoxDecoration(
-          color: const Color(0xFFF5F5F5),
+          color: const Color.fromARGB(13, 1, 1, 1),
           borderRadius: BorderRadius.circular(14),
         ),
         child: Row(
@@ -171,26 +170,24 @@ class _RoleCard extends StatelessWidget {
                   Text(
                     title,
                     style: const TextStyle(
-                      fontSize: 15,
+                      fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: Color(0xFF1A1A1A),
                     ),
                   ),
-                  const SizedBox(height: 4),
                   Text(
                     subtitle,
                     style: const TextStyle(
-                      fontSize: 13,
-                      color: Color(0xFF757575),
+                      fontSize: 15,
+                      color: Color.fromARGB(255, 85, 85, 85),
                       height: 1.4,
                     ),
                   ),
                 ],
               ),
             ),
-
-            // Chevron
-            const Icon(Icons.chevron_right, color: Color(0xFF1A1A1A), size: 22),
+            const Icon(Icons.chevron_right_rounded,
+                color: Color.fromARGB(205, 0, 0, 0), size: 50),
           ],
         ),
       ),
