@@ -172,12 +172,12 @@ class _NearbyBeauticiansPageState extends State<NearbyBeauticiansPage> {
                   ),*/
                 ],
               ),
-              const SizedBox(height: 22),
+              const SizedBox(height: 14),
               const Text(
                 'Discover a beautician for your next service.',
                 style: TextStyle(fontSize: 16, color: Color(0xFF4B5563)),
               ),
-              const SizedBox(height: 22),
+              const SizedBox(height: 10),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 decoration: BoxDecoration(
@@ -203,9 +203,9 @@ class _NearbyBeauticiansPageState extends State<NearbyBeauticiansPage> {
                   ),
                 ),
               ),
-              const SizedBox(height: 18),
+              const SizedBox(height: 10),
               _CategoryDropdown(selected: _category, onSelected: _pickCategory),
-              const SizedBox(height: 14),
+              const SizedBox(height: 10),
               if (_busy)
                 const LinearProgressIndicator(minHeight: 2)
               else
@@ -528,14 +528,14 @@ class _CategoryDropdown extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  o == 'All' ? 'All categories' : o,
+                  o == 'All' ? 'All' : o,
                   style: TextStyle(
                     fontWeight:
                         o == selected ? FontWeight.bold : FontWeight.normal,
                   ),
                 ),
                 if (o == selected) ...[
-                  const SizedBox(width: 12),
+                  const SizedBox(width: 5),
                   const Icon(Icons.check, size: 18, color: blue),
                 ],
               ],
@@ -543,7 +543,7 @@ class _CategoryDropdown extends StatelessWidget {
           ),
       ],
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
           color: const Color(0xFFDBEAFE),
           borderRadius: BorderRadius.circular(18),
@@ -555,7 +555,7 @@ class _CategoryDropdown extends StatelessWidget {
             Text(selected,
                 style:
                     const TextStyle(color: blue, fontWeight: FontWeight.bold)),
-            const SizedBox(width: 6),
+            const SizedBox(width: 4),
             const Icon(Icons.keyboard_arrow_down_rounded, color: blue),
           ],
         ),

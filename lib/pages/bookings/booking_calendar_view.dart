@@ -201,57 +201,64 @@ class _BookingCalendarViewState extends State<BookingCalendarView> {
       onTap: () => _openDay(day),
       child: SizedBox(
         height: 50,
-        child: Center(
-          child: SizedBox(
-            width: 42,
-            height: 42,
-            child: Stack(
-              clipBehavior: Clip.none,
-              alignment: Alignment.center,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: count > 0
-                        ? const Color(0xFFFCE4E4)
-                        : isToday
-                            ? const Color(0xFFDBEAFE)
-                            : Colors.transparent,
-                  ),
-                ),
-                Text(
-                  '${day.day}',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: count > 0 ? FontWeight.bold : FontWeight.normal,
-                  ),
-                ),
-                if (count > 0)
-                  Positioned(
-                    top: -3,
-                    right: -3,
-                    child: Container(
-                      constraints:
-                          const BoxConstraints(minWidth: 16, minHeight: 16),
-                      padding: const EdgeInsets.symmetric(horizontal: 4),
-                      decoration: const BoxDecoration(
-                        color: Color(0xFFEF4444),
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        '$count',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                        ),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final diameter =
+                constraints.maxWidth < 42 ? constraints.maxWidth : 42.0;
+            return Center(
+              child: SizedBox(
+                width: diameter,
+                height: diameter,
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: count > 0
+                            ? const Color(0xFFFCE4E4)
+                            : isToday
+                                ? const Color(0xFFDBEAFE)
+                                : Colors.transparent,
                       ),
                     ),
-                  ),
-              ],
-            ),
-          ),
+                    Text(
+                      '${day.day}',
+                      style: TextStyle(
+                        fontSize: diameter < 30 ? 13 : 16,
+                        fontWeight:
+                            count > 0 ? FontWeight.bold : FontWeight.normal,
+                      ),
+                    ),
+                    if (count > 0)
+                      Positioned(
+                        top: -3,
+                        right: -3,
+                        child: Container(
+                          constraints:
+                              const BoxConstraints(minWidth: 16, minHeight: 16),
+                          padding: const EdgeInsets.symmetric(horizontal: 4),
+                          decoration: const BoxDecoration(
+                            color: Color(0xFFEF4444),
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            '$count',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            );
+          },
         ),
       ),
     );

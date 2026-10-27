@@ -35,8 +35,9 @@ class _BeauticianProfilePageState extends State<BeauticianProfilePage> {
       });
     } catch (e) {
       if (!mounted) return;
-      if (_profile == null)
+      if (_profile == null) {
         setState(() => _error = AuthService.friendlyError(e));
+      }
     }
   }
 
@@ -100,66 +101,82 @@ class _BeauticianProfilePageState extends State<BeauticianProfilePage> {
   }
 
   Widget _content(ProfileData p) {
-    return ListView(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      children: [
-        const SizedBox(height: 6),
-        Row(
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 720),
+        child: ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           children: [
-            ProfileAvatar(initial: p.initial, imageUrl: p.profileImage),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    p.fullName,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      ProfileStat(
-                          value: '${p.servicesCount}', label: 'Services'),
-                      const ProfileStat(value: '0', label: 'Followers'),
-                      ProfileStat(
-                        value: p.rating == null
-                            ? '0'
-                            : '${p.rating!.toStringAsFixed(1)} (${p.ratingCount})',
-                        label: 'Rating',
-                        leading: const Icon(Icons.star,
-                            size: 15, color: Color(0xFFF59E0B)),
+            const SizedBox(height: 6),
+            LayoutBuilder(
+              builder: (context, constraints) {
+                final avatarSize = constraints.maxWidth < 360 ? 64.0 : 76.0;
+                return Row(
+                  children: [
+                    ProfileAvatar(
+                      initial: p.initial,
+                      imageUrl: p.profileImage,
+                      size: avatarSize,
+                    ),
+                    SizedBox(width: avatarSize == 64 ? 12 : 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            p.fullName,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(height: 5),
+                          Wrap(
+                            spacing: 22,
+                            runSpacing: 4,
+                            children: [
+                              ProfileStat(
+                                  value: '${p.servicesCount}',
+                                  label: 'Services'),
+                              const ProfileStat(value: '0', label: 'Followers'),
+                              ProfileStat(
+                                value: p.rating == null
+                                    ? '0'
+                                    : '${p.rating!.toStringAsFixed(1)} (${p.ratingCount})',
+                                label: 'Ratings',
+                                leading: const Icon(Icons.star,
+                                    size: 15, color: Color(0xFFF59E0B)),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ],
-              ),
+                    ),
+                  ],
+                );
+              },
             ),
+            if (p.bio != null && p.bio!.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Text(p.bio!, style: const TextStyle(fontSize: 14)),
+              ),
+            const SizedBox(height: 10),
+            ProfileActionRow(
+              onEdit: () => _openEditProfile(p),
+              onMenu: () => showProfileMenu(context),
+            ),
+
+            ProfileTabSwitcher(
+              tabs: const ['Services', 'Details'],
+              selected: _tab,
+              onChanged: (i) => setState(() => _tab = i),
+            ),
+            const SizedBox(height: 16),
+            if (_tab == 0) ServicesTab(onChanged: _load) else _details(p),
           ],
         ),
-        if (p.bio != null && p.bio!.isNotEmpty)
-          Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: Text(p.bio!, style: const TextStyle(fontSize: 14)),
-          ),
-        const SizedBox(height: 12),
-        ProfileActionRow(
-          onEdit: () => _openEditProfile(p),
-          onMenu: () => showProfileMenu(context),
-        ),
-        const SizedBox(height: 8),
-        ProfileTabSwitcher(
-          tabs: const ['Services', 'Details'],
-          selected: _tab,
-          onChanged: (i) => setState(() => _tab = i),
-        ),
-        const SizedBox(height: 16),
-        if (_tab == 0) ServicesTab(onChanged: _load) else _details(p),
-      ],
+      ),
     );
   }
 

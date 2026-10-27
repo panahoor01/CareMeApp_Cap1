@@ -51,85 +51,147 @@ class BookingCard extends StatelessWidget {
         ),
         child: InkWell(
           onTap: onTap,
-          child: SizedBox(
-            height: 120,
-            child: Row(
-              children: [
-                SizedBox(width: 108, child: _image()),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 8, 10, 8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final compact = constraints.maxWidth < 420;
+              final imageWidth =
+                  (constraints.maxWidth * 0.3).clamp(88.0, 108.0).toDouble();
+
+              return SizedBox(
+                height: compact ? 144 : 120,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    SizedBox(width: imageWidth, child: _image()),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 8, 10, 8),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Expanded(
-                              child: Text(
-                                b.serviceTitle,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
+                            if (compact) ...[
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      b.serviceTitle,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  if (showDot)
+                                    Container(
+                                      width: 9,
+                                      height: 9,
+                                      margin: const EdgeInsets.only(left: 6),
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xFFEF4444),
+                                        shape: BoxShape.circle,
+                                      ),
+                                    ),
+                                ],
                               ),
-                            ),
-                            if (showDot)
-                              Container(
-                                width: 9,
-                                height: 9,
-                                margin: const EdgeInsets.only(right: 6),
-                                decoration: const BoxDecoration(
-                                  color: Color(0xFFEF4444),
-                                  shape: BoxShape.circle,
-                                ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      topRight,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          fontSize: 11.5, color: color),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 3),
+                                  Icon(b.status.icon, size: 15, color: color),
+                                ],
                               ),
-                            Text(topRight,
-                                style: TextStyle(fontSize: 11.5, color: color)),
-                            const SizedBox(width: 3),
-                            Icon(b.status.icon, size: 15, color: color),
-                          ],
-                        ),
-                        if (b.variantName != null)
-                          Text('• ${b.variantName}',
+                            ] else
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      b.serviceTitle,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  if (showDot)
+                                    Container(
+                                      width: 9,
+                                      height: 9,
+                                      margin: const EdgeInsets.only(right: 6),
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xFFEF4444),
+                                        shape: BoxShape.circle,
+                                      ),
+                                    ),
+                                  Text(topRight,
+                                      style: TextStyle(
+                                          fontSize: 11.5, color: color)),
+                                  const SizedBox(width: 3),
+                                  Icon(b.status.icon, size: 15, color: color),
+                                ],
+                              ),
+                            if (b.variantName != null)
+                              Text('• ${b.variantName}',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                      fontSize: 12, color: Color(0xFF4B5563))),
+                            Text(
+                              '${b.otherName} • ${isBeautician ? 'client' : 'beautician'}',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
-                                  fontSize: 12, color: Color(0xFF4B5563))),
-                        Text(
-                          '${b.otherName} • ${isBeautician ? 'client' : 'beautician'}',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              fontSize: 12, color: Color(0xFF4B5563)),
-                        ),
-                        const Spacer(),
-                        Row(
-                          children: [
-                            Text('×${b.quantity}',
-                                style: const TextStyle(fontSize: 12)),
+                                  fontSize: 12, color: Color(0xFF4B5563)),
+                            ),
                             const Spacer(),
-                            Text(formatPeso(b.unitPrice),
+                            Row(
+                              children: [
+                                Text('×${b.quantity}',
+                                    style: const TextStyle(fontSize: 12)),
+                                const Spacer(),
+                                Flexible(
+                                  child: Text(
+                                    formatPeso(b.unitPrice),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.end,
+                                    style: const TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                'Total: ${formatPeso(b.totalPrice)}',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
-                                    fontSize: 13, fontWeight: FontWeight.w600)),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFFEF4444),
+                                ),
+                              ),
+                            ),
                           ],
                         ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Text(
-                            'Total: ${formatPeso(b.totalPrice)}',
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFFEF4444),
-                            ),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
+              );
+            },
           ),
         ),
       ),

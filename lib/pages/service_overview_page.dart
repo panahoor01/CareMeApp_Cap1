@@ -6,7 +6,6 @@ import 'package:flutter_application_practice/pages/beautician/services/service_m
 import 'package:flutter_application_practice/pages/beautician/services/service_repository.dart';
 import 'package:flutter_application_practice/pages/bookings/booking_models.dart';
 import 'package:flutter_application_practice/pages/client/booking/booking_page.dart';
-import 'package:flutter_application_practice/pages/beautician_top_bar.dart';
 import 'package:flutter_application_practice/profile/public_profile_repository.dart';
 
 class ServiceOverviewPage extends StatefulWidget {
@@ -258,14 +257,20 @@ class _ServiceOverviewPageState extends State<ServiceOverviewPage> {
     final String name;
     final String initial;
     final String? image;
+    final double? rating;
+    final int ratingCount;
     if (widget.beautician != null) {
       name = widget.beautician!.fullName;
       initial = widget.beautician!.initial;
       image = widget.beautician!.profileImage;
+      rating = widget.beautician!.rating;
+      ratingCount = widget.beautician!.ratingCount;
     } else if (_owner != null) {
       name = _owner!.fullName;
       initial = _owner!.initial;
       image = _owner!.profileImage;
+      rating = _owner!.rating;
+      ratingCount = _owner!.ratingCount;
     } else {
       return const SizedBox(height: 4); // still loading
     }
@@ -280,7 +285,14 @@ class _ServiceOverviewPageState extends State<ServiceOverviewPage> {
           bottom: BorderSide(color: Color(0xFFE5E7EB)),
         ),
       ),
-      child: BeauticianTopBar(name: name, initial: initial, imageUrl: image),
+      child: BeauticianTopBar(
+        name: name,
+        initial: initial,
+        imageUrl: image,
+        rating: rating == null
+            ? 'No ratings'
+            : '${rating.toStringAsFixed(1)} ($ratingCount)',
+      ),
     );
   }
 
@@ -631,6 +643,75 @@ class _ServiceOverviewPageState extends State<ServiceOverviewPage> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class BeauticianTopBar extends StatelessWidget {
+  final String name;
+  final String initial;
+  final String? imageUrl;
+  final String followers; // display text
+  final String rating; // display text
+
+  const BeauticianTopBar({
+    super.key,
+    required this.name,
+    required this.initial,
+    this.imageUrl,
+    this.followers = '0',
+    this.rating = '0',
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        ProfileAvatar(initial: initial, imageUrl: imageUrl, size: 40),
+        const SizedBox(width: 10),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                name,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              Wrap(
+                spacing: 12,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(followers,
+                          style: const TextStyle(
+                              fontSize: 12, fontWeight: FontWeight.bold)),
+                      const SizedBox(width: 3),
+                      const Text('Followers', style: TextStyle(fontSize: 12)),
+                    ],
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.star,
+                          size: 14, color: Color(0xFF22C55E)),
+                      const SizedBox(width: 3),
+                      Text(rating,
+                          style: const TextStyle(
+                              fontSize: 12, fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

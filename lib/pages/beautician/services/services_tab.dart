@@ -376,101 +376,117 @@ class _ServiceCard extends StatelessWidget {
         ),
         child: InkWell(
           onTap: onTap,
-          child: SizedBox(
-            height: 124,
-            child: Row(
-              children: [
-                SizedBox(width: 116, child: _cover()),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          service.title,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 4),
-                        Wrap(
-                          spacing: 10,
-                          runSpacing: 2,
-                          crossAxisAlignment: WrapCrossAlignment.center,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final compact = constraints.maxWidth < 420;
+              final imageWidth =
+                  (constraints.maxWidth * 0.3).clamp(88.0, 116.0).toDouble();
+
+              return SizedBox(
+                height: compact ? 144 : 124,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    SizedBox(width: imageWidth, child: _cover()),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // only shown once the service has ratings
-                            if (rating != null)
-                              Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  const Icon(Icons.star,
-                                      size: 14, color: Color(0xFFF59E0B)),
-                                  const SizedBox(width: 2),
+                            Text(
+                              service.title,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: compact ? 18 : 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Wrap(
+                              spacing: 10,
+                              runSpacing: 2,
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              children: [
+                                if (rating != null)
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Icon(Icons.star,
+                                          size: 14, color: Color(0xFFF59E0B)),
+                                      const SizedBox(width: 2),
+                                      Text(
+                                        '${rating.toStringAsFixed(1)}'
+                                        '${service.ratingCount != null ? ' (${service.ratingCount})' : ''}',
+                                        style: const TextStyle(
+                                            fontSize: 12,
+                                            color: Color(0xFF4B5563)),
+                                      ),
+                                    ],
+                                  ),
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Icon(Icons.schedule,
+                                        size: 14, color: Color(0xFF6B7280)),
+                                    const SizedBox(width: 2),
+                                    Text(
+                                      formatDuration(service.durationMinutes),
+                                      style: const TextStyle(
+                                          fontSize: 12,
+                                          color: Color(0xFF4B5563)),
+                                    ),
+                                  ],
+                                ),
+                                if (service.variants.isNotEmpty)
                                   Text(
-                                    '${rating.toStringAsFixed(1)}'
-                                    '${service.ratingCount != null ? ' (${service.ratingCount})' : ''}',
+                                    '${service.variants.length} variant'
+                                    '${service.variants.length == 1 ? '' : 's'}',
                                     style: const TextStyle(
                                         fontSize: 12, color: Color(0xFF4B5563)),
                                   ),
-                                ],
-                              ),
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Icon(Icons.schedule,
-                                    size: 14, color: Color(0xFF6B7280)),
-                                const SizedBox(width: 2),
-                                Text(
-                                  formatDuration(service.durationMinutes),
-                                  style: const TextStyle(
-                                      fontSize: 12, color: Color(0xFF4B5563)),
-                                ),
                               ],
                             ),
-                            if (service.variants.isNotEmpty)
-                              Text(
-                                '${service.variants.length} variant'
-                                '${service.variants.length == 1 ? '' : 's'}',
-                                style: const TextStyle(
-                                    fontSize: 12, color: Color(0xFF4B5563)),
-                              ),
-                          ],
-                        ),
-                        const Spacer(),
-                        Row(
-                          children: [
-                            Text(
-                              formatPeso(service.price),
-                              style: const TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFFEF4444),
-                              ),
-                            ),
                             const Spacer(),
-                            if (!service.isActive)
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 8, vertical: 2),
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFF3F4F6),
-                                  borderRadius: BorderRadius.circular(8),
+                            Row(
+                              children: [
+                                Flexible(
+                                  child: Text(
+                                    formatPeso(service.price),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xFFEF4444),
+                                    ),
+                                  ),
                                 ),
-                                child: const Text('Hidden',
-                                    style: TextStyle(
-                                        fontSize: 11,
-                                        color: Color(0xFF6B7280))),
-                              ),
+                                const Spacer(),
+                                if (!service.isActive)
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8, vertical: 2),
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFFF3F4F6),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: const Text('Hidden',
+                                        style: TextStyle(
+                                            fontSize: 11,
+                                            color: Color(0xFF6B7280))),
+                                  ),
+                              ],
+                            ),
                           ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
+              );
+            },
           ),
         ),
       ),

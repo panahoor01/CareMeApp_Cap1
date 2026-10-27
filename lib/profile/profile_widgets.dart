@@ -13,17 +13,22 @@ class ProfileHeaderBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 14, 20, 10),
-      child: Row(
-        children: [
-          Image.asset('assets/careme_logo.png', width: 36, height: 36),
-          const SizedBox(width: 10),
-          const Text('CareMe',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-          const Spacer(),
-          if (showActive) const ActiveToggle(),
-        ],
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 720),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 14, 20, 10),
+          child: Row(
+            children: [
+              Image.asset('assets/careme_logo.png', width: 36, height: 36),
+              const SizedBox(width: 10),
+              const Text('CareMe',
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+              const Spacer(),
+              if (showActive) const ActiveToggle(),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -93,7 +98,7 @@ class ProfileStat extends StatelessWidget {
                     const TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
           ],
         ),
-        Text(label, style: const TextStyle(fontSize: 12)),
+        Text(label, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500)),
       ],
     );
   }
@@ -111,7 +116,7 @@ class ProfileActionRow extends StatelessWidget {
       children: [
         Expanded(
           child: SizedBox(
-            height: 44,
+            height: 36,
             child: ElevatedButton(
               onPressed: onEdit,
               style: ElevatedButton.styleFrom(
@@ -121,14 +126,24 @@ class ProfileActionRow extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8)),
               ),
-              child: const Text('Edit Profile', style: TextStyle(fontSize: 16)),
+              child: const Text('Edit Profile', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             ),
           ),
         ),
-        const SizedBox(width: 12),
-        IconButton(
-          onPressed: onMenu,
-          icon: const Icon(Icons.menu, size: 32, color: Colors.black),
+        const SizedBox(width: 5),
+        Container(
+          width: 36,
+          height: 36,
+          decoration: BoxDecoration(
+            color: const Color.fromARGB(20, 0, 0, 0),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: IconButton(
+            onPressed: onMenu,
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+            icon: const Icon(Icons.menu_rounded, size: 25, color: Colors.black),
+          ),
         ),
       ],
     );
@@ -225,9 +240,9 @@ class ProfileCard extends StatelessWidget {
                 IconButton(
                   onPressed: onMore,
                   padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(),
-                icon: const Icon(Icons.more_horiz, color: Colors.black),
-              ),
+                  constraints: const BoxConstraints(),
+                  icon: const Icon(Icons.more_horiz, color: Colors.black),
+                ),
             ],
           ),
           const SizedBox(height: 6),

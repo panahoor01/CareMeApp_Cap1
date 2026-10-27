@@ -29,16 +29,8 @@ class SignupTopBar extends StatelessWidget implements PreferredSizeWidget {
                   children: [
                     Icon(
                       Icons.chevron_left_rounded,
-                      size: 30,
+                      size: 32,
                       color: Color(0xFF1A1A1A),
-                    ),
-                    Text(
-                      "Back",
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: Color(0xFF1A1A1A),
-                        fontWeight: FontWeight.w600,
-                      ),
                     ),
                   ],
                 ),

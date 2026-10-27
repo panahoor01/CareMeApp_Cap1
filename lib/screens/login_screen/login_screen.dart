@@ -17,13 +17,26 @@ class _LoginScreenState extends State<LoginScreen> {
   final _auth = AuthService();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  final FocusNode _phoneFocus = FocusNode();
+  final FocusNode _passwordFocus = FocusNode();
+
   bool _obscurePassword = true;
   bool _loading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _phoneFocus.addListener(() => setState(() {}));
+    _passwordFocus.addListener(() => setState(() {}));
+  }
 
   @override
   void dispose() {
     _phoneController.dispose();
     _passwordController.dispose();
+    _phoneFocus.dispose();
+    _passwordFocus.dispose();
     super.dispose();
   }
 
@@ -134,16 +147,17 @@ class _LoginScreenState extends State<LoginScreen> {
                           Expanded(
                             child: TextField(
                               controller: _phoneController,
+                              focusNode: _phoneFocus,
                               keyboardType: TextInputType.phone,
                               style: const TextStyle(
                                 fontSize: 18,
                                 color: Colors.black,
                               ),
-                              decoration: const InputDecoration(
-                                hintText: 'Phone Number',
-                                hintStyle: TextStyle(
+                              decoration: InputDecoration(
+                                hintText: _phoneFocus.hasFocus ? null : 'Phone Number',
+                                hintStyle: const TextStyle(
                                   fontSize: 18,
-                                  color: Colors.black,
+                                  color: Colors.black54,
                                 ),
                                 border: InputBorder.none,
                               ),
@@ -169,17 +183,18 @@ class _LoginScreenState extends State<LoginScreen> {
                           Expanded(
                             child: TextField(
                               controller: _passwordController,
+                              focusNode: _passwordFocus,
                               obscureText: _obscurePassword,
                               style: const TextStyle(
                                 fontSize: 18,
                                 color: Colors.black,
                               ),
-                              decoration: const InputDecoration(
-                                hintText: 'Password',
-                                border: InputBorder.none,
-                                hintStyle: TextStyle(
+                                decoration: InputDecoration(
+                                  hintText: _passwordFocus.hasFocus ? null : 'Password',
+                                  border: InputBorder.none,
+                                  hintStyle: const TextStyle(
                                   fontSize: 18,
-                                  color: Colors.black,
+                                  color: Colors.black54,
                                 ),
                               ),
                             ),
@@ -201,7 +216,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 10),
                     SizedBox(
                       width: double.infinity,
                       height: 56,

@@ -101,82 +101,100 @@ class _ClientProfilePageState extends State<ClientProfilePage> {
   Widget _content(ProfileData p) {
     return RefreshIndicator(
       onRefresh: _refresh,
-      child: ListView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        children: [
-          const SizedBox(height: 6),
-          Row(
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 720),
+          child: ListView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             children: [
-              ProfileAvatar(initial: p.initial, imageUrl: p.profileImage),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Flexible(
-                          child: Text(
-                            p.fullName,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
-                          ),
+              const SizedBox(height: 6),
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  final avatarSize = constraints.maxWidth < 360 ? 64.0 : 76.0;
+                  return Row(
+                    children: [
+                      ProfileAvatar(
+                        initial: p.initial,
+                        imageUrl: p.profileImage,
+                        size: avatarSize,
+                      ),
+                      SizedBox(width: avatarSize == 64 ? 12 : 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Flexible(
+                                  child: Text(
+                                    p.fullName,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                const SizedBox(width: 5),
+                                const Icon(Icons.circle,
+                                    size: 6, color: Color(0xFF3B9AE1)),
+                                const SizedBox(width: 3),
+                                const Text('Client',
+                                    style: TextStyle(
+                                        fontSize: 11,
+                                        color: Color(0xFF3B9AE1))),
+                              ],
+                            ),
+                            const SizedBox(height: 8),
+                            const Wrap(
+                              spacing: 24,
+                              runSpacing: 4,
+                              children: [
+                                ProfileStat(value: '0', label: 'Following'),
+                                ProfileStat(
+                                    value: '0', label: 'Total Bookings'),
+                              ],
+                            ),
+                          ],
                         ),
-                        const SizedBox(width: 6),
-                        const Icon(Icons.circle,
-                            size: 6, color: Color(0xFF3B9AE1)),
-                        const SizedBox(width: 3),
-                        const Text('Client',
-                            style: TextStyle(
-                                fontSize: 11, color: Color(0xFF3B9AE1))),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    const Row(
-                      children: [
-                        ProfileStat(value: '0', label: 'Following'),
-                        SizedBox(width: 28),
-                        ProfileStat(value: '0', label: 'Completed Bookings'),
-                      ],
-                    ),
-                  ],
-                ),
+                      ),
+                    ],
+                  );
+                },
               ),
+              if (p.bio != null && p.bio!.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Text(p.bio!, style: const TextStyle(fontSize: 14)),
+                ),
+
+              ProfileActionRow(
+                onEdit: () => _openEditProfile(p),
+                onMenu: () => showProfileMenu(context),
+              ),
+
+              ProfileTabSwitcher(
+                tabs: const ['Calendar', 'Bookings'],
+                selected: _tab,
+                onChanged: (i) => setState(() => _tab = i),
+              ),
+              const SizedBox(height: 14),
+              if (_tab == 0)
+                BookingCalendarView(
+                  store: _bookingsStore,
+                  isBeautician: false,
+                  embedded: true,
+                )
+              else
+                BookingsPanel(
+                  isBeautician: false,
+                  store: _bookingsStore,
+                  embedded: true,
+                ),
             ],
           ),
-          if (p.bio != null && p.bio!.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: Text(p.bio!, style: const TextStyle(fontSize: 14)),
-            ),
-          const SizedBox(height: 12),
-          ProfileActionRow(
-            onEdit: () => _openEditProfile(p),
-            onMenu: () => showProfileMenu(context),
-          ),
-          const SizedBox(height: 8),
-          ProfileTabSwitcher(
-            tabs: const ['Calendar', 'Bookings'],
-            selected: _tab,
-            onChanged: (i) => setState(() => _tab = i),
-          ),
-          const SizedBox(height: 14),
-          if (_tab == 0)
-            BookingCalendarView(
-              store: _bookingsStore,
-              isBeautician: false,
-              embedded: true,
-            )
-          else
-            BookingsPanel(
-              isBeautician: false,
-              store: _bookingsStore,
-              embedded: true,
-            ),
-        ],
+        ),
       ),
     );
   }
