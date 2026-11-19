@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_practice/location/active_toggle.dart';
+import 'package:flutter_application_practice/messages/chat_inbox_screen.dart';
 import 'package:flutter_application_practice/pages/bookings/booking_calendar_view.dart';
 import 'package:flutter_application_practice/pages/bookings/bookings_panel.dart';
 import 'package:flutter_application_practice/pages/bookings/bookings_repository.dart';
@@ -87,7 +87,18 @@ class _CalendarPageState extends State<CalendarPage> {
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                   ),
                   const Spacer(),
-                  const ActiveToggle(),
+                  GestureDetector(
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                          builder: (_) => const ChatInboxScreen()),
+                    ),
+                    child: const SizedBox(
+                      width: 42,
+                      height: 42,
+                      child: Icon(Icons.chat_bubble_outline,
+                          color: Colors.black87, size: 28),
+                    ),
+                  ),
                 ],
               ),
             ),

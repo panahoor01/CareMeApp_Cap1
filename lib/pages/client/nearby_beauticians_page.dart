@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_practice/auth/auth_service.dart';
 import 'package:flutter_application_practice/location/location_service.dart';
 import 'package:flutter_application_practice/location/nearby_beauticians_repository.dart';
+import 'package:flutter_application_practice/messages/chat_inbox_screen.dart';
 import 'package:flutter_application_practice/pages/client/beautician_public_profile_page.dart';
 import 'package:flutter_application_practice/pages/beautician/services/service_models.dart';
 
@@ -156,12 +157,10 @@ class _NearbyBeauticiansPageState extends State<NearbyBeauticiansPage> {
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                   ),
                   const Spacer(),
-                  /*const Icon(Icons.filter_list,
-                      color: Color(0xFF111827), size: 28),
-                  const SizedBox(width: 12),
                   GestureDetector(
                     onTap: () => Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => const MessagesPage()),
+                      MaterialPageRoute(
+                          builder: (_) => const ChatInboxScreen()),
                     ),
                     child: const SizedBox(
                       width: 42,
@@ -169,7 +168,7 @@ class _NearbyBeauticiansPageState extends State<NearbyBeauticiansPage> {
                       child: Icon(Icons.chat_bubble_outline,
                           color: Colors.black87, size: 28),
                     ),
-                  ),*/
+                  ),
                 ],
               ),
               const SizedBox(height: 14),
@@ -333,138 +332,138 @@ class _BeauticianCard extends StatelessWidget {
     // Fixed height: the services row scrolls sideways, and a scrollable
     // can't be measured by IntrinsicHeight.
     return Container(
-      height: 140,
-      decoration: BoxDecoration(
-        color: Colors.transparent,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: const Color.fromARGB(255, 51, 51, 51),
-          width: 0.8, // Slightly thicker so the bottom is visible
+        height: 140,
+        decoration: BoxDecoration(
+          color: Colors.transparent,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: const Color.fromARGB(255, 51, 51, 51),
+            width: 0.8, // Slightly thicker so the bottom is visible
+          ),
         ),
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(15),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            SizedBox(
-              width: 118,
-              child: _photo(),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(8, 0, 8, 5),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      b.fullName,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                    if (bio.isNotEmpty)
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(15),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(
+                width: 118,
+                child: _photo(),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 5),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                       Text(
-                        bio,
+                        b.fullName,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                            fontSize: 13.5, color: Color(0xFF4B5563)),
+                            fontSize: 20, fontWeight: FontWeight.bold),
                       ),
-                    Row(
-                      children: [
-                        const Icon(Icons.location_on,
-                            size: 16, color: Color(0xFF22C55E)),
-                        const SizedBox(width: 2),
-                        Flexible(
-                          child: Text(
-                            b.distanceLabel,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              color: Color(0xFF22C55E),
-                              fontWeight: FontWeight.w500,
-                              fontSize: 12,
+                      if (bio.isNotEmpty)
+                        Text(
+                          bio,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                              fontSize: 13.5, color: Color(0xFF4B5563)),
+                        ),
+                      Row(
+                        children: [
+                          const Icon(Icons.location_on,
+                              size: 16, color: Color(0xFF22C55E)),
+                          const SizedBox(width: 2),
+                          Flexible(
+                            child: Text(
+                              b.distanceLabel,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                color: Color(0xFF22C55E),
+                                fontWeight: FontWeight.w500,
+                                fontSize: 12,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    // shown only once the beautician has ratings
-                    if (b.rating != null)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 2),
-                        child: Row(
-                          children: [
-                            const Icon(Icons.star,
-                                size: 16, color: Color(0xFFF59E0B)),
-                            const SizedBox(width: 2),
-                            Text(
-                              '${b.rating!.toStringAsFixed(1)}'
-                              '${b.ratingCount != null ? ' (${compactCount(b.ratingCount!)})' : ''}',
-                              style: const TextStyle(fontSize: 12),
-                            ),
-                          ],
-                        ),
+                        ],
                       ),
-                    const Spacer(),
-                    const Text('Services:', style: TextStyle(fontSize: 13)),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              children: [
-                                for (final c in b.categories)
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 8),
-                                    child: _ServiceChip(
-                                        name: c, rating: b.categoryRatings[c]),
-                                  ),
-                              ],
-                            ),
+                      // shown only once the beautician has ratings
+                      if (b.rating != null)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 2),
+                          child: Row(
+                            children: [
+                              const Icon(Icons.star,
+                                  size: 16, color: Color(0xFFF59E0B)),
+                              const SizedBox(width: 2),
+                              Text(
+                                '${b.rating!.toStringAsFixed(1)}'
+                                '${b.ratingCount != null ? ' (${compactCount(b.ratingCount!)})' : ''}',
+                                style: const TextStyle(fontSize: 12),
+                              ),
+                            ],
                           ),
                         ),
-                        const SizedBox(width: 8),
-                        InkWell(
-                          borderRadius: BorderRadius.circular(10),
-                          onTap: () => Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) =>
-                                  BeauticianPublicProfilePage(beauticianId: b.id),
+                      const Spacer(),
+                      const Text('Services:', style: TextStyle(fontSize: 13)),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: [
+                                  for (final c in b.categories)
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 8),
+                                      child: _ServiceChip(
+                                          name: c,
+                                          rating: b.categoryRatings[c]),
+                                    ),
+                                ],
+                              ),
                             ),
                           ),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF6AB0E4),
-                              borderRadius: BorderRadius.circular(10),
+                          const SizedBox(width: 8),
+                          InkWell(
+                            borderRadius: BorderRadius.circular(10),
+                            onTap: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => BeauticianPublicProfilePage(
+                                    beauticianId: b.id),
+                              ),
                             ),
-                            child: const Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text('Details',
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 14)),
-                                Icon(Icons.chevron_right,
-                                    size: 22, color: Colors.white),
-                              ],
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF6AB0E4),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: const Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text('Details',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 14)),
+                                  Icon(Icons.chevron_right,
+                                      size: 22, color: Colors.white),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
-        ),
-      )
-    );
+            ],
+          ),
+        ));
   }
 }
 
